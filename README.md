@@ -4,73 +4,32 @@ Bem-vindo ao desafio de programação de robôs! Seu objetivo é implementar a l
 
 ---
 
-## 🚀 Como Iniciar
+## 🚀 Como Iniciar no Windows (Recomendado)
 
-Toda a sua lógica deve ser implementada dentro da pasta `solucao/`. 
-O ponto de entrada principal é a classe `Estrategia` nos arquivos:
-- `solucao/include/Estrategia.h`
-- `solucao/src/Estrategia.cpp`
-### 📦 Dependências
+O projeto está configurado para funcionar de forma automatizada no Windows utilizando o **Visual Studio 2022**. Toda a sua lógica deve ser implementada dentro da pasta `solucao/`.
 
-#### Linux (Ubuntu/Debian)
-```bash
-sudo apt-get install cmake g++ libx11-dev libxcursor-dev libxrandr-dev libudev-dev libgl1-mesa-dev libglu1-mesa-dev
-```
+### 📦 Pré-requisitos
+1. Instale o **[Visual Studio 2022 Community](https://visualstudio.microsoft.com/pt-br/vs/community/)**.
+2. Na instalação, selecione a carga de trabalho: **"Desenvolvimento para desktop com C++"**.
+3. O Visual Studio já inclui o CMake e os compiladores necessários.
 
-#### Windows
-1. Instale o **[CMake](https://cmake.org/download/)**.
-2. Instale um compilador C++:
-   - **Opção A (Recomendada):** **[Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/vs/community/)** (Marque a carga de trabalho "Desenvolvimento para desktop com C++").
-   - **Opção B:** **[MinGW-w64](https://www.mingw-w64.org/)** (via MSYS2 ou instalador direto).
-3. O CMake cuidará do download da SFML automaticamente durante a configuração.
-
-### 🛠️ Compilação e Execução
-
-#### Linux
-1. Compile o projeto: `./compilar.sh` (o script configura o CMake e compila automaticamente)
-2. Execute o binário: `./build/SimuladorFutebol`
-
-#### Windows (Via Terminal/PowerShell)
-1. Crie a pasta de build: `mkdir build`
-2. Entre na pasta: `cd build`
-3. Configure o projeto: `cmake ..`
-4. Compile: `cmake --build . --config Release`
-5. Execute o binário: `.\Release\SimuladorFutebol.exe`
-
-#### Windows (Via Visual Studio)
+### 🛠️ Compilação e Execução Passo a Passo
 1. Abra o Visual Studio 2022.
 2. Selecione **"Abrir uma Pasta Local"** e escolha a raiz deste projeto.
-3. O Visual Studio detectará o `CMakeLists.txt` automaticamente.
-4. Clique em **"Compilar" > "Compilar Tudo"**.
-5. Selecione `SimuladorFutebol.exe` no menu de inicialização e aperte **F5**.
-
-3. **Automático:** Assim que a janela abrir, todos os robôs já estarão executando o seu código do método `think()`.
-
-> **Nota:** Por padrão, tanto o **Time Azul** quanto o **Time Vermelho** utilizam a sua classe `Estrategia`.
-> 
-> **Dica:** Você pode usar a variável **`this->teamA`** (booleana) para diferenciar o comportamento entre os times.
-
-## 🎯 Requisitos da Solução
-
-Para uma solução profissional e robusta, espera-se que você implemente duas camadas lógicas principais:
-
-1.  **Tomador de Decisão:** Uma estrutura que determine o que cada robô deve fazer em cada momento (ex: "Ir para a bola", "Ficar na defesa", "Bloquear oponente"). Você pode usar **Máquinas de Estados (FSM)**, **Behavior Trees (BT)** ou lógicas similares.
-2.  **Planejador de Caminho (Planner):** Uma lógica que calcule o movimento necessário para atingir o objetivo definido pelo Tomador de Decisão. 
-    *   *Dica:* Um bom planejador não apenas vai em linha reta, mas considera o desvio de obstáculos e o posicionamento correto para empurrar a bola.
-
----
-
-## 📐 Unidades e Medidas (Sistema Internacional)
-
-O simulador trabalha exclusivamente com **METROS** e **SEGUNDOS**.
-- **Sistema de Coordenadas:** O centro do campo é o ponto `(0, 0)`.
-- **Limites de X:** de `-0.85` até `+0.85`.
-- **Limites de Y:** de `-0.65` até `+0.65`.
-- **Gols:** Verticalmente entre `y = -0.20` e `y = +0.20`.
+3. O Visual Studio detectará o arquivo `CMakeLists.txt` automaticamente e iniciará a "Geração do Cache do CMake" (acompanhe na barra de status inferior).
+4. **Importante:** Aguarde a mensagem "Geração do cache do CMake concluída".
+5. No menu superior, clique em **"Compilar" > "Compilar Tudo"** (ou use `Ctrl + Shift + B`).
+   - *Nota:* O projeto está configurado para copiar automaticamente todas as DLLs e fontes necessárias para a pasta de saída.
+6. Selecione `SimuladorFutebol.exe` no menu de inicialização (ao lado do botão verde de play) e aperte **F5**.
+7. O simulador abrirá uma janela gráfica. Todos os robôs já estarão executando o seu código do método `think()`.
 
 ---
 
 ## 🧠 Como Programar
+
+O ponto de entrada principal é a classe `Estrategia` nos arquivos:
+- `solucao/include/Estrategia.h`
+- `solucao/src/Estrategia.cpp`
 
 O simulador chama `think(const GameState& state)` para cada robô. Você tem acesso aos seguintes dados:
 - **Seu Robô:** `state.getMe()` (Posição `x, y` e Velocidade `vx, vy`).
@@ -91,68 +50,51 @@ Action Estrategia::think(const GameState& state) {
     a.moveDirectionX = std::cos(angulo);
     a.moveDirectionY = std::sin(angulo);
 
-    // Como saber se chegou no ponto? (Threshold de 5cm)
-    if (eu.distTo(alvoX, alvoY) < 0.05f) {
-        a.moveDirectionX = 0; a.moveDirectionY = 0;
-    }
-
     return a;
 }
 ```
 
 ---
 
-## 🤝 Coordenando Robôs e Times
+## 🎯 Requisitos da Solução
 
-Use o `state.myIndex` (0, 1 ou 2) para definir papéis e `this->teamA` para táticas diferentes por time:
+Espera-se que você implemente duas camadas lógicas principais:
 
-```cpp
-if (this->teamA) {
-    // Sou do Time Azul. Meu alvo é o X positivo (+0.85)
-} else {
-    // Sou do Time Vermelho. Meu alvo é o X negativo (-0.85)
-}
-```
+1.  **Tomador de Decisão:** Uma estrutura que determine o que cada robô deve fazer em cada momento (ex: "Ir para a bola", "Ficar na defesa", "Bloquear oponente"). Você pode usar **Máquinas de Estados (FSM)** ou lógicas similares.
+2.  **Planejador de Caminho (Planner):** Uma lógica que calcule o movimento necessário para atingir o objetivo definido pelo Tomador de Decisão. 
+    *   *Dica:* Considere o posicionamento correto para empurrar a bola e desvio básico de obstáculos.
 
 ---
 
-## 🖥️ Monitoramento via Terminal
+## 📐 Unidades e Medidas (Sistema Internacional)
 
-O terminal exibe o estado do jogo a 10Hz no formato:
-`[METROS] Bola:(X, Y) | Azul: (P0_X, P0_Y) (P1_X, P1_Y) (P2_X, P2_Y)`
+O simulador trabalha exclusivamente com **METROS** e **SEGUNDOS**.
+- **Sistema de Coordenadas:** O centro do campo é o ponto `(0, 0)`.
+- **Limites de X:** de `-0.85` até `+0.85`.
+- **Limites de Y:** de `-0.65` até `+0.65`.
+- **Gols:** Verticalmente entre `y = -0.20` e `y = +0.20`.
 
 ---
 
-## 🛠️ Regras Físicas
+## 🛠️ Regras e Comandos
 1.  **Duração:** As partidas duram 5 minutos (300 segundos).
 2.  **Velocidade:** Robôs atingem até `0.5 m/s`.
-3.  **Colisões:** Robôs colidem entre si, com a bola e com as paredes. 
-4.  **Gols:** Devem ser feitos empurrando a bola fisicamente. Não há comando de chute.
-5.  **Comandos de Teclado:**
-    -   **Tecla `F`:** Marca falta. Reseta as posições de todos os jogadores para as posições iniciais de jogo, mas **não** reseta a posição da bola nem o tempo/placar.
-    -   **Tecla `R`:** Reinicia o jogo completo. Reseta as posições dos jogadores, a posição da bola no centro, o placar e o cronômetro.
+3.  **Comandos de Teclado:**
+    -   **Tecla `F`:** Marca falta (reseta as posições dos robôs).
+    -   **Tecla `R`:** Reinicia o jogo completo (placar, tempo e posições).
 
 ---
 
 ## 📤 Entrega e Avaliação
 
-Ao finalizar o desafio, você deve entregar um **repositório (GitHub/GitLab)** contendo:
+Ao finalizar, entregue um **repositório (GitHub/GitLab)** contendo:
 1.  O código fonte da sua solução (pasta `solucao/`).
-2.  Um documento explicativo (pode ser um `README_SOLUCAO.md` ou um `PDF`).
-
-### 📝 O que deve conter no documento/apresentação:
-- **Explicação da Lógica:** Detalhamento do seu **Tomador de Decisão** e Planejador.
-- **Justificativa das Escolhas:** Por que você escolheu essa arquitetura? (Ex: Por que usar uma Behavior Tree em vez de uma Máquina de Estados? Ou, caso tenha feito via lógica linear no código, por que essa escolha foi suficiente?).
-- **Coordenação:** Como você lidou com a matemática e a cooperação entre os 3 robôs.
-- **Apresentação:**: No dia combinado, você terá até 20 minutos para aprresentar sua solução e mais 5 para questionamentos da equipe. 
+2.  Um documento explicativo (`README_SOLUCAO.md` ou `PDF`).
 
 ### 📊 Critérios de Avaliação:
-- **Robustez:** Como os robôs reagem a diferentes situações.
+- **Robustez:** Reação a diferentes situações de jogo.
 - **Organização:** Código limpo e modularizado.
 - **Matemática:** Uso de vetores, trigonometria e física.
-- **Planejamento de Rota:** Eficiência na movimentação.
-- **Apresentação:** Você deverá explicar sua solução para a equipe.
+- **Apresentação:** Você deverá explicar sua solução para a equipe (20 min + 5 min de perguntas).
 
-> **⚠️ Regra sobre IA:** O uso de IA não é proibido para auxílio, mas a solução **não deve ser feita inteiramente por IA**. Você deve ser capaz de explicar cada parte da lógica. O uso excessivo sem compreensão resultará em eliminação.
-
-Boa sorte! ⚽🤖🚀
+> **⚠️ Regra sobre IA:** O uso de IA não é proibido para auxílio, mas a solução **não deve ser feita inteiramente por IA**. Você deve ser capaz de explicar cada parte da lógica. Uso excessivo sem compreensão resultará em eliminação.

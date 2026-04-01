@@ -1,5 +1,6 @@
 # Compilação
 build/
+out/
 bin/
 lib/
 *.o
@@ -7,8 +8,10 @@ lib/
 *.so
 *.dll
 *.exe
+/arial.ttf
 
 # IDEs
+.vs/
 .vscode/
 .idea/
 *.swp

@@ -13,8 +13,17 @@ Simulator::Simulator(unsigned int w, unsigned int h)
       width((float)w), height((float)h) {
     
     window.setFramerateLimit(60);
-    if (!font.loadFromFile("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")) {
-        std::cerr << "Falha ao carregar fonte!" << std::endl;
+    
+    // Tenta carregar a fonte de caminhos comuns para garantir que funcione no VS e no terminal
+    bool fontLoaded = font.loadFromFile("arial.ttf") || 
+                     font.loadFromFile("assets/arial.ttf") ||
+                     font.loadFromFile("../assets/arial.ttf");
+
+    if (!fontLoaded) {
+        std::cerr << "[ERRO] Nao foi possivel encontrar 'arial.ttf'!" << std::endl;
+        std::cerr << "Certifique-se de que o arquivo existe na pasta do .exe ou em /assets" << std::endl;
+    } else {
+        std::cout << "[OK] Fonte carregada com sucesso!" << std::endl;
     }
 
     scoreText.setFont(font); scoreText.setCharacterSize(24); scoreText.setFillColor(sf::Color::White);
