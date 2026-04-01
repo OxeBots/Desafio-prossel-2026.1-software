@@ -87,14 +87,24 @@ O simulador trabalha exclusivamente com **METROS** e **SEGUNDOS**.
 
 ## 📤 Entrega e Avaliação
 
-Ao finalizar, entregue um **repositório (GitHub/GitLab)** contendo:
+Ao finalizar o desafio, você deve entregar um **repositório (GitHub/GitLab)** contendo:
 1.  O código fonte da sua solução (pasta `solucao/`).
-2.  Um documento explicativo (`README_SOLUCAO.md` ou `PDF`).
+2.  Um documento explicativo (pode ser um `README_SOLUCAO.md` ou um `PDF`).
+
+### 📝 O que deve conter no documento/apresentação:
+- **Explicação da Lógica:** Detalhamento do seu **Tomador de Decisão** e Planejador.
+- **Justificativa das Escolhas:** Por que você escolheu essa arquitetura? (Ex: Por que usar uma Máquina de Estados? Ou, caso tenha feito via lógica linear no código, por que essa escolha foi suficiente?).
+- **Coordenação:** Como você lidou com a matemática e a cooperação entre os 3 robôs.
+- **Apresentação:**: No dia combinado, você terá até 20 minutos para aprresentar sua solução e mais 5 para questionamentos da equipe. 
 
 ### 📊 Critérios de Avaliação:
-- **Robustez:** Reação a diferentes situações de jogo.
+- **Robustez:** Como os robôs reagem a diferentes situações.
 - **Organização:** Código limpo e modularizado.
 - **Matemática:** Uso de vetores, trigonometria e física.
-- **Apresentação:** Você deverá explicar sua solução para a equipe (20 min + 5 min de perguntas).
+- **Planejamento de Rota:** Eficiência na movimentação.
+- **Apresentação:** Você deverá explicar sua solução para a equipe.
 
-> **⚠️ Regra sobre IA:** O uso de IA não é proibido para auxílio, mas a solução **não deve ser feita inteiramente por IA**. Você deve ser capaz de explicar cada parte da lógica. Uso excessivo sem compreensão resultará em eliminação.
+> **⚠️ Regra sobre IA:** O uso de IA não é proibido para auxílio, mas a solução **não deve ser feita inteiramente por IA**. Você deve ser capaz de explicar cada parte da lógica. O uso excessivo sem compreensão resultará em eliminação.
+
+Boa sorte! ⚽🤖🚀
+
